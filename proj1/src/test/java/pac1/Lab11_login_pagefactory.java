@@ -1,4 +1,4 @@
-package Pack1;
+package pac1;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
