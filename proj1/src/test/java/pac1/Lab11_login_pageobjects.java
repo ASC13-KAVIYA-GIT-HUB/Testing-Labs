@@ -2,7 +2,7 @@
 package pac1;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-public class Lab9_login_pageobjects {
+public class Lab11_login_pageobjects {
 	WebDriver driver;
 	By uname=By.name("username");
 By pword=By.name("password");
