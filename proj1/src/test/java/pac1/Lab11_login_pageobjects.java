@@ -1,31 +1,49 @@
-//PAGE OBJECT CODE
 package pac1;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+
+import org.junit.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import Pack1.HomePage;
+
 public class Lab11_login_pageobjects {
-	WebDriver driver;
-	By uname=By.name("username");
-By pword=By.name("password");
-By submitbutton=By.xpath("//button[@type='submit']");
-By dashboard=By.xpath("//h6[text()='Dashboard']");
-public login_pageobjects(WebDriver driver2) {
-	this.driver=driver2;
-	// TODO Auto-generated constructor stub
-}
-public void enterusername(String username)
-{
-	driver.findElement(uname).sendKeys(username);
-}
-public void enterpassword(String password)
-{
-	driver.findElement(pword).sendKeys(password);
-}
-public void clickonsubmit()
-{
-	driver.findElement(submitbutton).click();
-}
-public boolean dashboarddisplayed()
-{
-	return driver.findElement(dashboard).isDisplayed();
-}
+    WebDriver driver;
+    HomePage home;
+
+    @Before
+    public void setUp() {
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get("https://tutorialsninja.com/demo/index.php");
+        home = new HomePage(driver);
+    }
+
+    @Test
+    public void testFlow() {
+        Assert.assertEquals("Your Store", driver.getTitle());
+
+        home.getDesktopsTab().click();
+        home.getMacLink().click();
+        Assert.assertEquals("Mac", home.getMacHeading().getText());
+
+        Select sort = new Select(home.getSortDropdown());
+        sort.selectByVisibleText("Name (A - Z)");
+
+        home.getAddToCartButton().click();
+
+        home.getSearchBox().clear();
+        home.getSearchBox().sendKeys("Monitors");
+        home.getSearchButton().click();
+
+        home.getSearchCriteria().clear();
+        if (!home.getDescriptionCheckbox().isSelected()) {
+            home.getDescriptionCheckbox().click();
+        }
+        home.getSearchAgainButton().click();
+    }
+
+    @After
+    public void tearDown() {
+        driver.quit();
+    }
 }
